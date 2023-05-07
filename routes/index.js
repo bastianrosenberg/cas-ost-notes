@@ -1,9 +1,11 @@
-import express from 'express'
-import { noteController } from '../controllers/note-controller.js';
+import express from "express";
+import { noteAppController } from "../controllers/note-app-controller.js";
 
 const router = express.Router();
 
-router.get('/', noteController.getIndexDocument);
-router.get('/create', noteController.getCreateDocument);
+router.get("/", noteAppController.getIndexDocument);
+router.get("/create", noteAppController.getCreateDocument);
 
 export const noteRoutes = router;
+
+export default noteRoutes;
