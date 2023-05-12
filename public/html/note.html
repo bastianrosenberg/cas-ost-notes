@@ -1,26 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Note Detail</title>
-    <script src="../scripts/controllers/note-detail-controller.js" type="module"></script>
-</head>
-<body>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="../favicon.png" type="image/png" />
+    <link href="../styles/main.css" rel="stylesheet" />
+  </head>
+  <body>
     <h1>Create Note</h1>
     <form>
-        <div class="form-title">
-            <label for="title">Title</label>
-            <input id="title" class="form-input" type="text" required name="Title" />
-        </div>
-        <div class="form-description">
-            <label for="description">Description</label>
-            <textarea id="description" class="form-input" required name="Description"></textarea>
-        </div>
+      <div class="form-title">
+        <label for="title">Title</label>
+        <input
+          id="title"
+          class="form-input"
+          type="text"
+          required
+          name="Title"
+        />
+      </div>
+      <div class="form-description">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          class="form-input"
+          required
+          name="Description"
+        ></textarea>
+      </div>
 
-        <button id="save" type="submit">Create</button>
-        <a href="/">Cancel</a>
+      <button id="submit-button" type="submit">Create</button>
+      <a href="/">Back</a>
     </form>
-</body>
+    <script
+      src="../scripts/controllers/note-detail-controller.js"
+      type="module"
+    ></script>
+    <script
+      src="../scripts/controllers/app-controller.js"
+      type="module"
+    ></script>
+  </body>
 </html>

@@ -3,17 +3,18 @@ import { config } from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 import { noteApiRoutes } from "./routes/api-routes.js";
-import { noteRoutes } from "./routes/index.js";
+import { noteRoutes } from "./routes/app-routes.js";
 
 if (process.env.NODE_ENV !== "production") {
   config();
 }
 
 const app = express();
-const port = 3000;
+const port = 3001;
 app.use(bodyParser.json());
 
 app.use(express.static("public"));
+
 app.use("/", noteRoutes);
 app.use("/api/notes", noteApiRoutes);
 

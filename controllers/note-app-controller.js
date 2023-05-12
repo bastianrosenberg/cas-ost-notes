@@ -10,7 +10,7 @@ export class NoteAppController {
     res.sendFile(`${this.noteRootPath}index.html`);
   };
 
-  getCreateDocument = (req, res) => {
+  getNoteDetailDocument = (req, res) => {
     res.sendFile(`${this.noteRootPath}note.html`);
   };
 }

@@ -17,6 +17,20 @@ export class NoteService {
   async createNote(note) {
     await HttpHelper.ajax("post", this.apiBaseUrl, note);
   }
+
+  async updateNote(note) {
+    console.log(`${this.apiBaseUrl}/${note._id}`);
+    await HttpHelper.ajax("put", `${this.apiBaseUrl}/${note._id}`, note);
+  }
+
+  async getNote(id) {
+    const data = await HttpHelper.ajax("get", `${this.apiBaseUrl}/${id}`);
+    return new Note(data.title, data.description, data._id);
+  }
+
+  async deleteNote(id) {
+    await HttpHelper.ajax("delete", `${this.apiBaseUrl}/${id}`);
+  }
 }
 
 export const noteService = new NoteService();

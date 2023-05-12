@@ -1,0 +1,91 @@
+:root {
+  --background-color: #c9bdbd;
+  --emphasize-color: #939fb4;
+  --shadow-color: #888889;
+  --button-color: #5792d9;
+  --active-color: #668a8b;
+  --font-color: #1a1f25;
+  --warn-color: #f53c32;
+}
+
+.dark-theme {
+  --background-color: #1f2936;
+  --emphasize-color: #484f55;
+  --shadow-color: #464444;
+  --button-color: #2f6d70;
+  --active-color: #05436d;
+  --font-color: #eee;
+}
+
+body {
+  font-family: Roboto, sans-serif;
+  display: flex;
+  flex-wrap: wrap;
+  background: var(--background-color);
+  color: var(--font-color);
+}
+
+header {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+footer {
+  text-align: center;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  color: var(--background-color);
+  background-color: var(--font-color);
+  width: 100%;
+}
+
+#notes-container {
+  height: 100%;
+  margin-top: -64px;
+  padding-top: 64px;
+  margin-bottom: -64px;
+  padding-bottom: 64px;
+  box-sizing: border-box;
+}
+
+.page-intro {
+  text-align: center;
+}
+
+.page-intro > h1 {
+  margin-bottom: 0.5rem;
+}
+
+.page-intro > p {
+  font-size: 0.8rem;
+  font-style: italic;
+  margin-top: 0;
+}
+
+.btn {
+  background-color: var(--button-color);
+  color: var(--font-color);
+  font-family: Roboto, sans-serif;
+  font-size: 1rem;
+  border: 0;
+  box-shadow: 0.2rem 0.3rem 0.5rem var(--shadow-color);
+  padding: 0.3rem;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.btn:hover,
+.btn-active {
+  background-color: var(--active-color);
+}
+
+.app-btns {
+  margin: 1.5rem;
+}
+
+.header-buttons {
+  margin-left: auto;
+}
