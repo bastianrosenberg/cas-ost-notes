@@ -30,12 +30,26 @@ async function deleteNote(clickedElem) {
 
 async function handleManipulateNoteEvent(event) {
   const clickedElement = event.target;
+
   // if (clickedElement.id === editButtonId) {
   // editNote(clickedElement);
   // }
-  if (clickedElement.id === "delete-button") {
-    await deleteNote(clickedElement);
+
+  switch (clickedElement.id) {
+    case "delete-button":
+      if (clickedElement.value === "Delete") {
+        clickedElement.value = "Confirm";
+      } else {
+        await deleteNote(clickedElement);
+      }
+      break;
+    case "edit-button":
+      window.location.href = `/edit?id=${clickedElement.dataset.noteId}`;
+      break;
+    default:
+      break;
   }
+
   // if (clickedElement.type === "checkbox") {
   //   await toggleFinishState(clickedElement);
   // }

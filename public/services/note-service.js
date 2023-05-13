@@ -11,7 +11,16 @@ export class NoteService {
       "get",
       `${this.apiBaseUrl}?search=${searchString ?? ""}`
     );
-    return data.map((item) => new Note(item.title, item.description, item._id));
+    return data.map(
+      (item) =>
+        new Note(
+          item.title,
+          item.description,
+          moment(item.dueDate).format("yyyy-MM-DD"),
+          item.importance,
+          item._id
+        )
+    );
   }
 
   async createNote(note) {
@@ -19,13 +28,18 @@ export class NoteService {
   }
 
   async updateNote(note) {
-    console.log(`${this.apiBaseUrl}/${note._id}`);
     await HttpHelper.ajax("put", `${this.apiBaseUrl}/${note._id}`, note);
   }
 
   async getNote(id) {
     const data = await HttpHelper.ajax("get", `${this.apiBaseUrl}/${id}`);
-    return new Note(data.title, data.description, data._id);
+    return new Note(
+      data.title,
+      data.description,
+      data.dueDate,
+      data.importance,
+      data._id
+    );
   }
 
   async deleteNote(id) {

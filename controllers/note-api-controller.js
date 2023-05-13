@@ -1,3 +1,4 @@
+import moment from "moment/moment.js";
 import Note from "./note.js";
 
 class NoteApiController {
@@ -18,12 +19,12 @@ class NoteApiController {
     const note = new this.Note({
       title: req.body.title,
       description: req.body.description,
+      dueDate: moment(req.body.dueDate).format(),
+      importance: req.body.importance,
     });
 
     try {
-      const newNote = await note.save();
-
-      // res.redirect(`note/${newNote.id}`);
+      await note.save();
       res.redirect("notes");
     } catch {
       // TODO - show error
@@ -35,10 +36,11 @@ class NoteApiController {
   };
 
   updateNote = async (req, res) => {
-    // TODO - how to redirect after update like with post
     const updateNote = {
       title: req.body.title,
       description: req.body.description,
+      dueDate: req.body.dueDate,
+      importance: req.body.importance,
     };
     await this.Note.findOneAndUpdate({ _id: req.body._id }, updateNote, {
       new: true,
@@ -47,7 +49,7 @@ class NoteApiController {
     try {
       res.redirect(303, "/api/notes");
     } catch (err) {
-      console.log("update err", err);
+      console.log("TODO - update err", err);
     }
   };
 

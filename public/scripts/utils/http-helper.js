@@ -9,10 +9,7 @@ class HttpHelper {
       method: method.toUpperCase(),
       headers: fetchHeaders,
       body: JSON.stringify(data),
-    }).then((res) => {
-      console.log(res.status, res);
-      return res.json();
-    });
+    }).then((res) => res.json());
   }
 }
 

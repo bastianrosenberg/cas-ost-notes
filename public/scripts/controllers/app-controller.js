@@ -15,16 +15,8 @@ const switchThemeText = (theme) =>
 
 function handleThemeChangeEvent(event) {
   const currentValue = event.target.value;
-
-  const bodyClassList = document.body.classList;
-
-  if (currentValue === lightThemeValue) {
-    bodyClassList.remove(darkThemeValue);
-  }
-
-  if (currentValue === darkThemeValue) {
-    bodyClassList.add(darkThemeValue);
-  }
+  const bodyClassList = document.body.classList || lightThemeValue;
+  bodyClassList.toggle(darkThemeValue);
 
   themeButton.value = switchThemeValue(currentValue);
   themeButton.textContent = switchThemeText(currentValue);

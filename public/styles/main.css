@@ -9,12 +9,12 @@
 }
 
 .dark-theme {
-  --background-color: #1f2936;
+  --background-color: #082e61;
   --emphasize-color: #484f55;
-  --shadow-color: #464444;
+  --shadow-color: #928f8f;
   --button-color: #2f6d70;
-  --active-color: #05436d;
-  --font-color: #eee;
+  --active-color: #032841;
+  --font-color: #e9dbdb;
 }
 
 body {
@@ -40,6 +40,11 @@ footer {
   color: var(--background-color);
   background-color: var(--font-color);
   width: 100%;
+}
+
+input,
+textarea {
+  font-size: large;
 }
 
 #notes-container {
@@ -75,6 +80,7 @@ footer {
   padding: 0.3rem;
   border-radius: 12px;
   cursor: pointer;
+  min-width: 100px;
 }
 
 .btn:hover,
@@ -82,10 +88,71 @@ footer {
   background-color: var(--active-color);
 }
 
-.app-btns {
+/* .app-btns {
   margin: 1.5rem;
-}
+} */
 
 .header-buttons {
   margin-left: auto;
+}
+
+/* note items */
+
+.note-detail {
+  margin: auto;
+  width: 70%;
+  padding: 10px;
+}
+
+.note-form {
+  display: grid;
+  grid-template-columns: 20% 50%;
+  grid-auto-rows: 40px;
+  grid-template-rows: 40px 80px;
+  grid-gap: 5px;
+  row-gap: 10px;
+}
+
+.note-form label {
+  display: flex;
+  font-size: 1.5rem;
+  align-items: center;
+  height: 100%;
+}
+
+/* .note-form label::after {
+  content: ":";
+} */
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Rating */
+
+#rating {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+
+#rating > input {
+  visibility: hidden;
+}
+
+#rating > label {
+  width: 2rem;
+  cursor: pointer;
+  color: var(--font-color);
+}
+
+#rating > label:not(:checked)::before {
+  content: "\2606";
+  font-size: 1.3em;
+}
+
+#rating > input:checked ~ label::before {
+  content: "\2605";
+  font-size: 1.3em;
 }

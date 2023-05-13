@@ -9,6 +9,14 @@ const noteSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  dueDate: {
+    type: Date,
+    required: true,
+  },
+  importance: {
+    type: Number,
+    required: true,
+  },
 });
 
 const Note = mongoose.model("Note", noteSchema);
