@@ -55,7 +55,7 @@ function initEventHandlers() {
     await handleFormSubmitEvent(event);
   });
 
-  cancelButton.addEventListener("click", (event) => {
+  cancelButton.addEventListener("click", () => {
     window.location.href = "/";
   });
 }

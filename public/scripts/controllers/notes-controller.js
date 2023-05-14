@@ -3,8 +3,8 @@ import MarkupGenerator from "../utils/markup-generator.js";
 
 const notesContainer = document.querySelector("#notes-container");
 
-const form = document.querySelector("form");
-const formSearch = document.querySelector("#search");
+// const form = document.querySelector("form");
+const searchInput = document.querySelector("#search");
 
 const createButton = document.getElementById("button-create");
 
@@ -13,15 +13,14 @@ async function renderNotes(searchString) {
   notesContainer.innerHTML = MarkupGenerator.generateNotes(notes);
 }
 
-async function handleFormSubmitEvent(event) {
-  event.preventDefault();
-  await renderNotes(formSearch.value);
+async function handleSearchInputEvent(searchString) {
+  await renderNotes(searchString);
 }
 
 async function deleteNote(clickedElem) {
   await noteService
     .deleteNote(clickedElem.dataset.noteId)
-    .then((res) => {
+    .then(() => {
       const noteElement = clickedElem.closest(".note");
       noteElement.remove();
     })
@@ -30,10 +29,6 @@ async function deleteNote(clickedElem) {
 
 async function handleManipulateNoteEvent(event) {
   const clickedElement = event.target;
-
-  // if (clickedElement.id === editButtonId) {
-  // editNote(clickedElement);
-  // }
 
   switch (clickedElement.id) {
     case "delete-button":
@@ -54,17 +49,12 @@ async function handleManipulateNoteEvent(event) {
   //   await toggleFinishState(clickedElement);
   // }
   // }
-
-  // Edit Note
-  // function editNote(clickedElem) {
-  //   window.location.href = `edit?id=${getNoteIdFromChildElem(clickedElem)}`;
-  // }
 }
 
 function initEventHandlers() {
-  form?.addEventListener("submit", async (event) => {
-    await handleFormSubmitEvent(event);
-  });
+  // form?.addEventListener("submit", async (event) => {
+  //   await handleFormSubmitEvent(event);
+  // });
 
   notesContainer?.addEventListener("click", async (event) => {
     await handleManipulateNoteEvent(event);
@@ -72,6 +62,12 @@ function initEventHandlers() {
 
   createButton.addEventListener("click", () => {
     window.location.href = `create`;
+  });
+
+  searchInput.addEventListener("keyup", async (event) => {
+    if (event.target.value.length === 0 || event.target.value.length > 2) {
+      await handleSearchInputEvent(event.target.value);
+    }
   });
 }
 

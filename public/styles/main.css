@@ -10,11 +10,11 @@
 
 .dark-theme {
   --background-color: #082e61;
-  --emphasize-color: #484f55;
+  --emphasize-color: #678cac;
   --shadow-color: #928f8f;
   --button-color: #2f6d70;
   --active-color: #032841;
-  --font-color: #e9dbdb;
+  --font-color: #dbc6c6;
 }
 
 body {
@@ -48,12 +48,40 @@ textarea {
 }
 
 #notes-container {
-  height: 100%;
-  margin-top: -64px;
-  padding-top: 64px;
-  margin-bottom: -64px;
-  padding-bottom: 64px;
-  box-sizing: border-box;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  padding: 10px;
+  position: relative;
+  grid-template-rows: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.filter-container {
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  padding-left: 10px;
+  position: relative;
+}
+
+.note {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-rows: 1fr 2fr;
+  font-size: 0.85rem;
+  padding: 0.5rem;
+  box-shadow: 0.2rem 0.3rem 0.5rem var(--shadow-color);
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+  align-items: center;
+}
+
+.note:nth-child(odd) {
+  background-color: var(--emphasize-color);
+}
+
+.duedate::before {
+  content: "\2606";
 }
 
 .page-intro {
@@ -88,10 +116,6 @@ textarea {
   background-color: var(--active-color);
 }
 
-/* .app-btns {
-  margin: 1.5rem;
-} */
-
 .header-buttons {
   margin-left: auto;
 }
@@ -113,6 +137,13 @@ textarea {
   row-gap: 10px;
 }
 
+@media screen and (max-width: 992px) {
+  .note-form {
+    display: block;
+    flex-wrap: wrap;
+  }
+}
+
 .note-form label {
   display: flex;
   font-size: 1.5rem;
@@ -131,19 +162,26 @@ textarea {
 
 /* Rating */
 
-#rating {
+.rating {
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
 }
 
-#rating > input {
+.compressed label {
+  padding: 0%;
+}
+
+.rating > input {
   visibility: hidden;
+}
+
+input[type="radio"]:not([disabled]) + label {
+  cursor: pointer;
 }
 
 #rating > label {
   width: 2rem;
-  cursor: pointer;
   color: var(--font-color);
 }
 
