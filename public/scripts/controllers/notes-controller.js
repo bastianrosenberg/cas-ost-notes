@@ -23,6 +23,7 @@ async function deleteNote(clickedElem) {
     .then(() => {
       const noteElement = clickedElem.closest(".note");
       noteElement.remove();
+      socket.emit("message", clickedElem.dataset.noteId);
     })
     .catch((err) => console.log("client error - TODO handle errors", err));
 }
@@ -72,6 +73,10 @@ function initEventHandlers() {
 }
 
 async function init() {
+  // for sake of simplicity we get reload all notes but could also manipulate DOM by payload (id)
+  socket.on("message", () => {
+    renderNotes();
+  });
   initEventHandlers();
   await renderNotes();
 }

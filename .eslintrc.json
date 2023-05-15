@@ -20,6 +20,7 @@
     "no-underscore-dangle": ["error", { "allow": ["_id"] }]
   },
   "globals": {
-    "moment": false
+    "moment": false,
+    "socket": false
   }
 }

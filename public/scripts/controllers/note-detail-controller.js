@@ -46,7 +46,7 @@ async function handleFormSubmitEvent(event) {
   } else {
     await saveNote();
   }
-
+  socket.emit("message", getId());
   window.location.href = "/";
 }
 

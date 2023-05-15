@@ -168,10 +168,6 @@ textarea {
   justify-content: space-between;
 }
 
-.compressed label {
-  padding: 0%;
-}
-
 .rating > input {
   visibility: hidden;
 }

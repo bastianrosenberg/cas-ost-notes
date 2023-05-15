@@ -12,15 +12,14 @@ export default class MarkupGenerator {
           </div style="padding-top:10px">
         </div>
 
-
         <div class="note-buttons">
           <button class="btn" id="edit-button" data-note-id=${
             note._id
           }>Edit</button>
         </div>
 
-        <div id="rating" class="rating compressed">
-           ${this.generateImportanceMarkup(note.importance)}
+        <div id="rating" class="rating">
+           ${this.generateImportanceMarkup(note)}
         </div>
 
         <p>${note.description}</p>
@@ -38,14 +37,16 @@ export default class MarkupGenerator {
     return notes.map((note) => this.generateNote(note)).join("");
   }
 
-  static generateImportanceMarkup(importance) {
-    return [1, 2, 3, 4, 5]
+  static generateImportanceMarkup(note) {
+    return [5, 4, 3, 2, 1]
       .map(
         (m) =>
           `<input disabled ${
-            importance === m && "checked"
-          } type="radio" id="star${m}" name="star" value="${m}"/>
-      <label for="star${m}" title="${m} stars"></label>`
+            note.importance === m && "checked"
+          } type="radio" id="star${m}" name="importance${
+            note._id
+          }" value="${m}"/>
+      <label for="star${m}" title="${m} star(s)"></label>`
       )
       .join("");
   }
