@@ -21,7 +21,22 @@ body {
   font-family: Roboto, sans-serif;
   display: flex;
   flex-wrap: wrap;
-  background: var(--background-color);
+
+  /* background: var(--background-color); */
+
+  background-image: linear-gradient(to right, #141e30, #243b55);
+
+  /* background-image: linear-gradient(to right, #decba4, #3e5151); */
+
+  /* background-image: linear-gradient(
+    95.2deg,
+    rgb(173 252 234 / 100%) 26.8%,
+    rgb(192 229 246 / 100%) 64%
+  ); */
+
+  /* background-image: linear-gradient(to right, #b6fbff, #83a4d4); */
+
+  /* background-image: linear-gradient(to right, #ffd194, #d1913c); */
   color: var(--font-color);
 }
 
@@ -57,11 +72,11 @@ textarea {
 }
 
 .filter-container {
+  display: flex;
   width: 100%;
   height: auto;
-  margin: 0 auto;
+  margin-top: 20px;
   padding-left: 10px;
-  position: relative;
 }
 
 .note {

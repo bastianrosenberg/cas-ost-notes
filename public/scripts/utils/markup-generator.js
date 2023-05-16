@@ -2,15 +2,15 @@ export default class MarkupGenerator {
   static generateNote(note) {
     return `<div class="note" data-note-id=${note._id}>
      
-        <p>📅&#xFE0E; <span class="bold">${moment(note.dueDate).format(
-          "DD.MM.YYYY"
-        )}</span></p>
+        <p>
+          <label>DueDate</label><br>
+          📅&#xFE0E; <span class="bold">${moment(note.dueDate).format(
+            "DD.MM.YYYY"
+          )}</span></p>
 
-        <div>
           <div>
             <h3>${note.title}</h3>
-          </div style="padding-top:10px">
-        </div>
+          </div>
 
         <div class="note-buttons">
           <button class="btn" id="edit-button" data-note-id=${
@@ -18,9 +18,20 @@ export default class MarkupGenerator {
           }>Edit</button>
         </div>
 
-        <div id="rating" class="rating">
-           ${this.generateImportanceMarkup(note)}
-        </div>
+        <div>
+          <p>
+            <label>Importance</label>
+          <div id="rating" class="rating">
+            ${this.generateImportanceMarkup(note)}
+          </div>
+          </p>
+          <p>
+            <label>Completed</label>
+            <input type="checkbox" data-note-id=${note._id} ${
+      note.completed && "checked='true'"
+    }"  />
+          </p>
+          </div>
 
         <p>${note.description}</p>
 

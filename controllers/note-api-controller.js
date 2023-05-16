@@ -21,6 +21,7 @@ class NoteApiController {
       description: req.body.description,
       dueDate: moment(req.body.dueDate).format(),
       importance: req.body.importance,
+      completed: req.body.completed,
     });
 
     try {
@@ -41,6 +42,7 @@ class NoteApiController {
       description: req.body.description,
       dueDate: req.body.dueDate,
       importance: req.body.importance,
+      completed: req.body.completed,
     };
     await this.Note.findOneAndUpdate({ _id: req.body._id }, updateNote, {
       new: true,

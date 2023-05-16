@@ -17,6 +17,10 @@ const noteSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  completed: {
+    type: Boolean,
+    required: false,
+  },
 });
 
 const Note = mongoose.model("Note", noteSchema);

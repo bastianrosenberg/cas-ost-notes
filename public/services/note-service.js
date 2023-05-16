@@ -18,6 +18,7 @@ export class NoteService {
           item.description,
           moment(item.dueDate).format("yyyy-MM-DD"),
           item.importance,
+          item.completed,
           item._id
         )
     );
@@ -38,6 +39,7 @@ export class NoteService {
       data.description,
       data.dueDate,
       data.importance,
+      data.completed,
       data._id
     );
   }

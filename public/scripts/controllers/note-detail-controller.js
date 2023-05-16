@@ -9,6 +9,7 @@ const formTitle = document.querySelector("#title");
 const formDescription = document.querySelector("#description");
 const formDueDate = document.querySelector("#duedate");
 const submitButton = document.querySelector("#submit-button");
+const formCompleted = document.querySelector("#completed");
 
 const getImportance = () =>
   document.querySelector('input[name="importance"]:checked').value;
@@ -18,7 +19,8 @@ async function saveNote() {
     formTitle.value,
     formDescription.value,
     moment(formDueDate.value).format(),
-    getImportance()
+    getImportance(),
+    formCompleted.checked
   );
   await noteService.createNote(newNote);
 }
@@ -33,6 +35,7 @@ async function updateNote() {
     formDescription.value,
     moment(formDueDate.value).format(),
     getImportance(),
+    formCompleted.checked,
     getId()
   );
   await noteService.updateNote(note);
@@ -68,12 +71,14 @@ async function handleEdit() {
     formTitle.value = note.title;
     formDescription.value = note.description;
     formDueDate.value = moment(note.dueDate).format("yyyy-MM-DD");
+    formCompleted.checked = note.completed;
     submitButton.textContent = "Update";
     title.textContent = "Update Note";
     document.getElementById(starSelector).checked = true;
   } else {
     document.getElementById("star3").checked = true;
     formDueDate.value = moment().format("yyyy-MM-DD");
+    formCompleted.checked = false;
   }
 }
 

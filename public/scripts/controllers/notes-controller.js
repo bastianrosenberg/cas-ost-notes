@@ -5,7 +5,6 @@ const notesContainer = document.querySelector("#notes-container");
 
 // const form = document.querySelector("form");
 const searchInput = document.querySelector("#search");
-
 const createButton = document.getElementById("button-create");
 
 async function renderNotes(searchString) {
@@ -28,13 +27,23 @@ async function deleteNote(clickedElem) {
     .catch((err) => console.log("client error - TODO handle errors", err));
 }
 
+async function toggleFinishState(element) {
+  const note = await noteService.getNote(element.dataset.noteId);
+
+  await noteService.updateNote({ ...note, completed: element.checked });
+  socket.emit("message", element.dataset.noteId);
+}
+
 async function handleManipulateNoteEvent(event) {
   const clickedElement = event.target;
 
   switch (clickedElement.id) {
     case "delete-button":
-      if (clickedElement.value === "Delete") {
-        clickedElement.value = "Confirm";
+      if (clickedElement.textContent === "Delete") {
+        clickedElement.textContent = "Confirm";
+        clickedElement.style.background = getComputedStyle(
+          document.body
+        ).getPropertyValue("--warn-color");
       } else {
         await deleteNote(clickedElement);
       }
@@ -46,23 +55,18 @@ async function handleManipulateNoteEvent(event) {
       break;
   }
 
-  // if (clickedElement.type === "checkbox") {
-  //   await toggleFinishState(clickedElement);
-  // }
-  // }
+  if (clickedElement.type === "checkbox") {
+    await toggleFinishState(clickedElement);
+  }
 }
 
 function initEventHandlers() {
-  // form?.addEventListener("submit", async (event) => {
-  //   await handleFormSubmitEvent(event);
-  // });
-
   notesContainer?.addEventListener("click", async (event) => {
     await handleManipulateNoteEvent(event);
   });
 
   createButton.addEventListener("click", () => {
-    window.location.href = `create`;
+    window.location.href = "create";
   });
 
   searchInput.addEventListener("keyup", async (event) => {
@@ -73,7 +77,7 @@ function initEventHandlers() {
 }
 
 async function init() {
-  // for sake of simplicity we get reload all notes but could also manipulate DOM by payload (id)
+  // for sake of simplicity we reload all notes but could also manipulate DOM by payload (id)
   socket.on("message", () => {
     renderNotes();
   });
