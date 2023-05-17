@@ -17,6 +17,10 @@
     "object-curly-newline": "off",
     "object-curly-spacing": "off",
     "linebreak-style": "off",
-    "no-console": "warn"
+    "no-underscore-dangle": ["error", { "allow": ["_id"] }]
+  },
+  "globals": {
+    "moment": false,
+    "socket": false
   }
 }

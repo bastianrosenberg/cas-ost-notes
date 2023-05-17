@@ -3,21 +3,54 @@
   <head>
     <meta charset="UTF-8" />
     <title>Note app</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="icon" href="../favicon.png" type="image/png" />
+    <link href="../styles/main.css" rel="stylesheet" />
+  </head>
+  <body>
+    <header>
+      <div class="page-intro">
+        <h1>Note app</h1>
+        <p>A note app for cas fee</p>
+      </div>
+      <div class="app-btns header-buttons">
+        <button
+          class="btn header-buttons__create"
+          type="button"
+          id="button-create"
+        >
+          Create Note
+        </button>
+        <button class="btn header-buttons__theme" type="button">
+          Dark Theme
+        </button>
+      </div>
+    </header>
+    <main>
+      <div class="filter-container">
+        <input placeholder="Search" id="search" type="text" name="search" />
+        <button class="btn">Order by DueDate</button>
+      </div>
+      <div id="notes-container"></div>
+    </main>
+    <footer><div>Note app Bastian Rosenberg &#169;2023</div></footer>
     <script
       src="../scripts/controllers/notes-controller.js"
       type="module"
     ></script>
-    <link rel="icon" href="../favicon.png" type="image/png" />
-  </head>
-  <body>
-    <h1>Note app</h1>
-    <a href="/create" id="btn-create">Create Note</a>
-    <form>
-      <label>Title</label>
-      <input id="search" type="text" name="title" />
-      <button type="submit">Search</button>
-    </form>
-    <div id="notes-container"></div>
+    <script
+      src="../scripts/controllers/app-controller.js"
+      type="module"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io();
+    </script>
   </body>
-  <footer>Note app Bastian Rosenberg &#169;2023</footer>
 </html>

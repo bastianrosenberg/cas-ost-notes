@@ -4,10 +4,10 @@ import noteApiController from "../controllers/note-api-controller.js";
 const router = express.Router();
 
 router.get("/", noteApiController.getAllNotes);
-// router.get('/:id/', noteApiController.getSingleNote);
+router.get("/:id", noteApiController.getNote);
 router.post("/", noteApiController.createNote);
-// router.put('/:id/', noteApiController.updateNote);
-// router.delete('/:id', noteApiController.deleteNote);
+router.put("/:id", noteApiController.updateNote);
+router.delete("/:id", noteApiController.deleteNote);
 
 export const noteApiRoutes = router;
 
