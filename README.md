@@ -1,6 +1,6 @@
 # Notes App
 
-This is a project for Frontend Engineer OST
+This is a project for the CAS Frontend Engineer OST 2023/2024
 
 # Technologies
 
@@ -12,6 +12,7 @@ This is a project for Frontend Engineer OST
 
 - nodemon (Restart on file change)
 - body-parser (Request body parsing)
+- socket.io (websockets)
 
 ## Get started
 

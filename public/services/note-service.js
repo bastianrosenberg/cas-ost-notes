@@ -6,12 +6,12 @@ export class NoteService {
     this.apiBaseUrl = "/api/notes";
   }
 
-  async getNotes(searchString, sort) {
+  async getNotes(searchString, sort, showCompleted) {
     const data = await HttpHelper.ajax(
       "get",
       `${this.apiBaseUrl}?search=${searchString ?? ""}&field=${
         sort.field
-      }&sort=${sort.sort}`
+      }&sort=${sort.sort}&completed=${showCompleted}`
     );
     return data.map(
       (item) =>

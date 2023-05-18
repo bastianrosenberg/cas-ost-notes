@@ -45,10 +45,17 @@
     <main>
       <div class="filter-container">
         <input placeholder="Search" id="search" type="text" name="search" />
-        <button class="btn sort" data-field="dueDate">Order by DueDate</button>
-        <button class="btn sort" data-field="importance">
-          Order by Importance
+        <button class="btn sort" name="DueDate" data-field="dueDate">
+          DueDate
         </button>
+        <button class="btn sort" name="Importance" data-field="importance">
+          Importance
+        </button>
+
+        <div>
+          <input id="completed" type="checkbox" />
+          <label for="completed">Show completed</label>
+        </div>
       </div>
       <div id="notes-container"></div>
     </main>

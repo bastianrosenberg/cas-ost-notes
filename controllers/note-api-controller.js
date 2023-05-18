@@ -7,7 +7,7 @@ class NoteApiController {
   }
 
   getAllNotes = async (req, res) => {
-    const searchOptions = {};
+    const searchOptions = { completed: false };
     const sortOptions = {};
 
     if (req.query.search !== null) {
@@ -16,6 +16,10 @@ class NoteApiController {
 
     if (req.query.field !== null) {
       sortOptions[req.query.field] = Number(req.query.sort);
+    }
+
+    if (req.query.completed === "true") {
+      delete searchOptions.completed;
     }
 
     res.json((await this.Note.find(searchOptions).sort(sortOptions)) || []);

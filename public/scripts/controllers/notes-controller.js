@@ -3,13 +3,19 @@ import MarkupGenerator from "../utils/markup-generator.js";
 
 const notesContainer = document.querySelector("#notes-container");
 let searchFilter = "";
+let showCompleted = false;
 const sortNote = { field: "dueDate", sort: -1 };
 
 const searchInput = document.querySelector("#search");
 const createButton = document.querySelector("#button-create");
+const completedInput = document.querySelector("#completed");
 
 async function renderNotes() {
-  const notes = await noteService.getNotes(searchFilter, sortNote);
+  const notes = await noteService.getNotes(
+    searchFilter,
+    sortNote,
+    showCompleted
+  );
   notesContainer.innerHTML = MarkupGenerator.generateNotes(notes);
 }
 
@@ -17,8 +23,7 @@ async function deleteNote(clickedElem) {
   await noteService
     .deleteNote(clickedElem.dataset.noteId)
     .then(() => {
-      const noteElement = clickedElem.closest(".note");
-      noteElement.remove();
+      clickedElem.closest(".note").remove();
       socket.emit("message", clickedElem.dataset.noteId);
     })
     .catch((err) => console.log("client error - TODO handle errors", err));
@@ -69,8 +74,17 @@ async function initEventHandlers() {
   const sortButtons = document.querySelectorAll(".btn.sort");
   sortButtons.forEach((btn) => {
     btn.addEventListener("click", async (event) => {
+      const clickedButton = event.target;
       sortNote.field = event.target.dataset.field;
       sortNote.sort *= -1;
+
+      sortButtons.forEach((element) => {
+        const resetButton = element;
+        resetButton.textContent = resetButton.name;
+      });
+
+      clickedButton.textContent += sortNote.sort === -1 ? " ⬇️" : " ⬆️";
+
       await renderNotes();
     });
   });
@@ -81,6 +95,11 @@ async function initEventHandlers() {
       searchFilter = event.target.value;
       await renderNotes();
     }
+  });
+
+  completedInput.addEventListener("click", async (event) => {
+    showCompleted = event.target.checked;
+    await renderNotes();
   });
 }
 
