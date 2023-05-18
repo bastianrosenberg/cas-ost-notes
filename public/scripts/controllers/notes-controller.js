@@ -2,18 +2,15 @@ import { noteService } from "../../services/note-service.js";
 import MarkupGenerator from "../utils/markup-generator.js";
 
 const notesContainer = document.querySelector("#notes-container");
+let searchFilter = "";
+const sortNote = { field: "dueDate", sort: -1 };
 
-// const form = document.querySelector("form");
 const searchInput = document.querySelector("#search");
-const createButton = document.getElementById("button-create");
+const createButton = document.querySelector("#button-create");
 
-async function renderNotes(searchString) {
-  const notes = await noteService.getNotes(searchString);
+async function renderNotes() {
+  const notes = await noteService.getNotes(searchFilter, sortNote);
   notesContainer.innerHTML = MarkupGenerator.generateNotes(notes);
-}
-
-async function handleSearchInputEvent(searchString) {
-  await renderNotes(searchString);
 }
 
 async function deleteNote(clickedElem) {
@@ -60,7 +57,7 @@ async function handleManipulateNoteEvent(event) {
   }
 }
 
-function initEventHandlers() {
+async function initEventHandlers() {
   notesContainer?.addEventListener("click", async (event) => {
     await handleManipulateNoteEvent(event);
   });
@@ -69,19 +66,30 @@ function initEventHandlers() {
     window.location.href = "create";
   });
 
+  const sortButtons = document.querySelectorAll(".btn.sort");
+  sortButtons.forEach((btn) => {
+    btn.addEventListener("click", async (event) => {
+      sortNote.field = event.target.dataset.field;
+      sortNote.sort *= -1;
+      await renderNotes();
+    });
+  });
+
   searchInput.addEventListener("keyup", async (event) => {
-    if (event.target.value.length === 0 || event.target.value.length > 2) {
-      await handleSearchInputEvent(event.target.value);
+    const stringLength = event.target.value.length;
+    if (stringLength === 0 || stringLength > 2) {
+      searchFilter = event.target.value;
+      await renderNotes();
     }
   });
 }
 
 async function init() {
-  // for sake of simplicity we reload all notes but could also manipulate DOM by payload (id)
+  // for sake of simplicity we reload all data
   socket.on("message", () => {
     renderNotes();
   });
-  initEventHandlers();
+  await initEventHandlers();
   await renderNotes();
 }
 

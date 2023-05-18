@@ -5,10 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Note Detail</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
+    <script src="/socket.io/socket.io.js"></script>
+    <script>const socket = io();</script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>   
+    <script src="../scripts/controllers/app-controller.js" type="module"></script>
+    <script src="../scripts/controllers/note-detail-controller.js" type="module"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
     <link rel="icon" href="../favicon.png" type="image/png" />
     <link href="../styles/main.css" rel="stylesheet" />
   </head>
@@ -16,7 +19,6 @@
     <div class="note-detail">
       <h1>Create Note</h1>
       <form class="note-form">
-
           <label for="title">Title</label>
           <input
             id="title"
@@ -74,18 +76,5 @@
 
       </form>
     </div>
-    <script
-      src="../scripts/controllers/note-detail-controller.js"
-      type="module"
-    ></script>
-    <script
-      src="../scripts/controllers/app-controller.js"
-      type="module"
-    ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-      var socket = io();
-    </script>
   </body>
 </html>

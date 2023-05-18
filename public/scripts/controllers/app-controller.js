@@ -22,6 +22,7 @@ function handleThemeChangeEvent(event) {
   themeButton.textContent = switchThemeText(currentValue);
 
   localStorage.setItem(themeLocalStorageId, currentValue);
+  socket.emit("theme", currentValue);
 }
 
 function initializeTheme() {
@@ -29,6 +30,8 @@ function initializeTheme() {
 
   if (theme === darkThemeValue) {
     document.body.classList.add(darkThemeValue);
+  } else {
+    document.body.classList.remove(darkThemeValue);
   }
 
   if (themeButton) {
@@ -47,6 +50,9 @@ function initEventHandlers() {
 function init() {
   initializeTheme();
   initEventHandlers();
+  socket.on("theme", () => {
+    initializeTheme();
+  });
 }
 
 init();

@@ -34,15 +34,10 @@ const server = app.listen(port, () => {
 const io = new Server(server);
 
 io.on("connection", (socket) => {
-  console.log("user connected");
-  socket.on("message", (msg) => {
-    console.log("server message received and emitted");
-    io.emit("message", msg);
+  socket.on("message", (payload) => {
+    io.emit("message", payload);
+  });
+  socket.on("theme", (payload) => {
+    io.emit("theme", payload);
   });
 });
-
-// io.on("connection", (socket) => {
-//   socket.on("message", (msg) => {
-//     console.log(`message: ${msg}`);
-//   });
-// });

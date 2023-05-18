@@ -8,11 +8,17 @@ class NoteApiController {
 
   getAllNotes = async (req, res) => {
     const searchOptions = {};
+    const sortOptions = {};
 
     if (req.query.search !== null) {
       searchOptions.title = new RegExp(req.query.search, "i");
     }
-    res.json((await this.Note.find(searchOptions)) || []);
+
+    if (req.query.field !== null) {
+      sortOptions[req.query.field] = Number(req.query.sort);
+    }
+
+    res.json((await this.Note.find(searchOptions).sort(sortOptions)) || []);
   };
 
   createNote = async (req, res) => {
