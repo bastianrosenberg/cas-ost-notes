@@ -10,6 +10,9 @@ const searchInput = document.querySelector("#search");
 const createButton = document.querySelector("#button-create");
 const completedInput = document.querySelector("#completed");
 
+const getNoteIdFromContainer = (element) =>
+  element.closest(".note").dataset.noteId;
+
 async function renderNotes() {
   const notes = await noteService.getNotes(
     searchFilter,
@@ -20,20 +23,22 @@ async function renderNotes() {
 }
 
 async function deleteNote(clickedElem) {
+  const noteId = getNoteIdFromContainer(clickedElem);
+
   await noteService
-    .deleteNote(clickedElem.dataset.noteId)
+    .deleteNote(noteId)
     .then(() => {
       clickedElem.closest(".note").remove();
-      socket.emit("message", clickedElem.dataset.noteId);
+      socket.emit("message", noteId);
     })
     .catch((err) => console.log("client error - TODO handle errors", err));
 }
 
 async function toggleFinishState(element) {
-  const note = await noteService.getNote(element.dataset.noteId);
+  const note = await noteService.getNote(getNoteIdFromContainer(element));
 
   await noteService.updateNote({ ...note, completed: element.checked });
-  socket.emit("message", element.dataset.noteId);
+  socket.emit("message", note._id);
 }
 
 async function handleManipulateNoteEvent(event) {
@@ -51,7 +56,9 @@ async function handleManipulateNoteEvent(event) {
       }
       break;
     case "edit-button":
-      window.location.href = `/edit?id=${clickedElement.dataset.noteId}`;
+      window.location.href = `/edit?id=${getNoteIdFromContainer(
+        clickedElement
+      )}`;
       break;
     default:
       break;

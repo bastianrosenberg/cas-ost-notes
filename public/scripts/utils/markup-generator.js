@@ -13,9 +13,7 @@ export default class MarkupGenerator {
           </div>
 
         <div class="note-buttons">
-          <button class="btn" id="edit-button" data-note-id=${
-            note._id
-          }>Edit</button>
+          <button class="btn" id="edit-button">Edit</button>
         </div>
 
         <div>
@@ -27,25 +25,23 @@ export default class MarkupGenerator {
           </p>
           <p>
             <label>Completed</label>
-            <input type="checkbox" data-note-id=${note._id} ${
-      note.completed && "checked='true'"
-    }"  />
+            <input type="checkbox" ${note.completed && "checked='true'"}"  />
           </p>
           </div>
 
         <p>${note.description}</p>
 
         <div class="note-buttons">
-          <button class="btn" id="delete-button" data-note-id=${
-            note._id
-          }>Delete</button>
+          <button class="btn" id="delete-button">Delete</button>
         </div>
 
       </div>`;
   }
 
   static generateNotes(notes) {
-    return notes.map((note) => this.generateNote(note)).join("");
+    return notes.length
+      ? notes.map((note) => this.generateNote(note)).join("")
+      : "<div>No items to display.</div>";
   }
 
   static generateImportanceMarkup(note) {
