@@ -23,16 +23,17 @@ export default class MarkupGenerator {
             ${this.generateImportanceMarkup(note)}
           </div>
           </p>
-          <p>
-            <label>Completed</label>
-            <input type="checkbox" ${note.completed && "checked='true'"}"  />
-          </p>
-          </div>
+        </div>
 
         <p>${note.description}</p>
 
         <div class="note-buttons">
-          <button class="btn" id="delete-button">Delete</button>
+          <p>
+            <button class="btn" id="complete-button">${
+              note.completed ? "Activate" : "Complete"
+            }</button>
+          </p>
+            <button class="btn" id="delete-button">Delete</button>
         </div>
 
       </div>`;

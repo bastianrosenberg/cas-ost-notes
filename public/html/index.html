@@ -52,12 +52,80 @@
           Importance
         </button>
 
-        <div>
-          <input id="completed" type="checkbox" />
-          <label for="completed">Show completed</label>
-        </div>
+        <label>Completed</label>
+        <label class="switch">
+          <input id="filter-completed" type="checkbox" />
+          <span class="slider round"></span>
+        </label>
       </div>
       <div id="notes-container"></div>
+
+      <dialog id="note-dialog">
+        <div class="note-detail">
+          <h1>Create Note</h1>
+          <form class="note-form">
+            <input id="note-id" type="hidden" />
+            <label for="title">Title</label>
+            <input
+              id="title"
+              class="form-input"
+              type="text"
+              required
+              name="Title"
+            />
+
+            <label for="description">Text</label>
+            <textarea
+              id="description"
+              class="form-input"
+              required
+              name="Description"
+              rows="4"
+            ></textarea>
+
+            <label for="description">DueDate</label>
+            <input
+              id="duedate"
+              type="date"
+              class="form-input"
+              required
+              name="DueDate"
+            />
+
+            <label></label>
+            <div class="slidecontainer">
+              <input
+                type="range"
+                min="1"
+                max="5"
+                value="3"
+                id="importance"
+                required
+              />
+            </div>
+
+            <div></div>
+            <div class="form-buttons">
+              <button
+                value="cancel"
+                class="btn"
+                formmethod="dialog"
+                formnovalidate
+              >
+                Cancel
+              </button>
+              <button
+                class="btn"
+                id="submit-button"
+                value="default"
+                formmethod="dialog"
+              >
+                Create
+              </button>
+            </div>
+          </form>
+        </div>
+      </dialog>
     </main>
     <footer><div>Note app Bastian Rosenberg &#169;2023</div></footer>
   </body>
