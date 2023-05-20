@@ -8,7 +8,7 @@ const noteDialog = document.querySelector("#note-dialog");
 
 let searchFilter = "";
 let showCompleted = false;
-const sortNote = { field: "dueDate", sort: -1 };
+const sortNote = { field: "dueDate", sort: 1 };
 
 const createButton = document.querySelector("#button-create");
 const completedInput = document.querySelector("#filter-completed");

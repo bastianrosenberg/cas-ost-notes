@@ -17,7 +17,7 @@ This is a project for the CAS Frontend Engineer OST 2023/2024
 ## Get started
 
 - run command `npm install` in the root directory
-- install a local mongodb on your pc
+- install a local mongodb on your pc [mongodb](https://www.mongodb.com/docs/manual/installation/)
 - create a `.env` file in the root directory with an entry pointing to your mongodb collection
   e.g. `DATABASE_URL="mongodb://localhost/notes"`
 - `npm run dev` (this will start your app with nodemon)

@@ -13,8 +13,8 @@
   --background-color: #082e61;
   --emphasize-color: #678cac;
   --shadow-color: #928f8f;
-  --button-color: #2f6d70;
-  --active-color: #032841;
+  --button-color: #7b767e;
+  --active-color: #4e94d1;
   --font-color: #dbc6c6;
   --bg-image: linear-gradient(to right, #141e30, #243b55);
 }
@@ -60,6 +60,7 @@ main {
 
 input,
 textarea {
+  width: 100%;
   font-size: large;
 }
 
@@ -69,6 +70,7 @@ input[type="range"] {
 
 #notes-container {
   width: 100%;
+  align-items: baseline;
   height: auto;
   margin: 0 auto;
   padding: 10px;
@@ -78,22 +80,29 @@ input[type="range"] {
 
 .filter-container {
   display: flex;
+  align-items: baseline;
   width: 100%;
   height: auto;
   margin-top: 20px;
   padding-left: 10px;
 }
 
+.filter-container input {
+  width: 20%;
+}
+
 .note {
   display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
-  grid-template-rows: 1fr 2fr;
-  font-size: 0.85rem;
+  grid-template-columns: 1fr 4.5fr 1fr;
   padding: 0.5rem;
   box-shadow: 0.2rem 0.3rem 0.5rem var(--shadow-color);
   margin-bottom: 1rem;
-  margin-right: 1rem;
+  margin-right: -10px;
   align-items: center;
+}
+
+.note p {
+  padding-right: 15px;
 }
 
 .note:nth-child(odd) {
@@ -123,9 +132,7 @@ input[type="range"] {
   color: var(--font-color);
   font-family: Roboto, sans-serif;
   font-size: 1rem;
-  border: 0;
-
-  /* box-shadow: 0.2rem 0.3rem 0.5rem var(--shadow-color); */
+  border: 1px solid var(--font-color);
   padding: 0.3rem;
   border-radius: 12px;
   cursor: pointer;
@@ -152,7 +159,7 @@ input[type="range"] {
 
 .note-form {
   display: grid;
-  grid-template-columns: 20% 50%;
+  grid-template-columns: 25% 70%;
   grid-auto-rows: 40px;
   grid-template-rows: 40px 80px;
   grid-gap: 5px;
@@ -162,7 +169,7 @@ input[type="range"] {
 @media screen and (max-width: 992px) {
   .note-form {
     display: block;
-    flex-wrap: wrap;
+    font-size: smaller;
   }
 }
 
@@ -172,9 +179,14 @@ input[type="range"] {
   height: 100%;
 }
 
-.form-buttons {
+.form-center {
   display: flex;
   justify-content: center;
+  min-height: 30px;
+}
+
+.space {
+  margin-left: 5px;
 }
 
 /* Rating */
@@ -187,10 +199,13 @@ input[type="range"] {
 
 .rating > input {
   visibility: hidden;
+  display: none;
 }
 
 #rating > label {
   color: var(--font-color);
+  padding-right: 10px;
+  font-size: larger;
 }
 
 #rating > label:not(:checked)::before {
@@ -208,7 +223,7 @@ input[type="range"] {
   position: relative;
   display: inline-block;
   width: 60px;
-  height: 34px;
+  height: 33px;
 }
 
 /* Hide default HTML checkbox */
@@ -216,6 +231,12 @@ input[type="range"] {
   opacity: 0;
   width: 0;
   height: 0;
+}
+
+.switch-item {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
 }
 
 /* The slider */

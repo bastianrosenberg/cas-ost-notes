@@ -3,14 +3,13 @@ export default class MarkupGenerator {
     return `<div class="note" data-note-id=${note._id}>
      
         <p>
-          <label>DueDate</label><br>
-          📅&#xFE0E; <span class="bold">${moment(note.dueDate).format(
-            "DD.MM.YYYY"
-          )}</span></p>
+          <strong>${note.daysText()}</strong><br>
+          📅&#xFE0E; <span>${moment(note.dueDate).format("DD.MM.YYYY")}</span>
+        </p>
 
-          <div>
-            <h3>${note.title}</h3>
-          </div>
+        <div>
+          <h3>${note.title}</h3>
+        </div>
 
         <div class="note-buttons">
           <button class="btn" id="edit-button">Edit</button>
@@ -18,7 +17,6 @@ export default class MarkupGenerator {
 
         <div>
           <p>
-            <label>Importance</label>
           <div id="rating" class="rating">
             ${this.generateImportanceMarkup(note)}
           </div>
@@ -33,7 +31,7 @@ export default class MarkupGenerator {
               note.completed ? "Activate" : "Complete"
             }</button>
           </p>
-            <button class="btn" id="delete-button">Delete</button>
+          <button class="btn" id="delete-button">Delete</button>
         </div>
 
       </div>`;
