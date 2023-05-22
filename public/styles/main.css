@@ -1,9 +1,11 @@
 :root {
   --background-color: #c9bdbd;
+  --background-overdue-color: #c05524;
   --emphasize-color: #4ccece;
+  --emphasize-overdue-color: #af3f8d;
   --shadow-color: #888889;
   --button-color: #5792d9;
-  --active-color: #6ba9ac;
+  --active-color: #4ccece;
   --font-color: #1a1f25;
   --warn-color: #f53c32;
   --bg-image: linear-gradient(to right, #b6fbff, #83a4d4);
@@ -11,10 +13,12 @@
 
 .dark-theme {
   --background-color: #082e61;
+  --background-overdue-color: #c09f43;
   --emphasize-color: #678cac;
+  --emphasize-overdue-color: #bd7029;
   --shadow-color: #928f8f;
   --button-color: #7b767e;
-  --active-color: #4e94d1;
+  --active-color: #678cac;
   --font-color: #dbc6c6;
   --bg-image: linear-gradient(to right, #141e30, #243b55);
 }
@@ -107,6 +111,14 @@ input[type="range"] {
 
 .note:nth-child(odd) {
   background-color: var(--emphasize-color);
+}
+
+.overdue {
+  background-color: var(--background-overdue-color);
+}
+
+.note.overdue:nth-child(odd) {
+  background-color: var(--emphasize-overdue-color);
 }
 
 .duedate::before {

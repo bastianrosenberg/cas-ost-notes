@@ -1,6 +1,8 @@
 export default class MarkupGenerator {
   static generateNote(note) {
-    return `<div class="note" data-note-id=${note._id}>
+    return `<div class="note ${note.days < 0 ? "overdue" : ""}" data-note-id=${
+      note._id
+    }>
      
         <p>
           <strong>${note.daysText()}</strong><br>
