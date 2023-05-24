@@ -1,6 +1,6 @@
 # Notes App
 
-This is a project for Frontend Engineer OST
+This is a project for the CAS Frontend Engineer OST 2023/2024
 
 # Technologies
 
@@ -12,11 +12,12 @@ This is a project for Frontend Engineer OST
 
 - nodemon (Restart on file change)
 - body-parser (Request body parsing)
+- socket.io (websockets)
 
 ## Get started
 
 - run command `npm install` in the root directory
-- install a local mongodb on your pc
+- install a local mongodb on your pc [mongodb](https://www.mongodb.com/docs/manual/installation/)
 - create a `.env` file in the root directory with an entry pointing to your mongodb collection
   e.g. `DATABASE_URL="mongodb://localhost/notes"`
 - `npm run dev` (this will start your app with nodemon)

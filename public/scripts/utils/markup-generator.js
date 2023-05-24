@@ -1,51 +1,48 @@
 export default class MarkupGenerator {
   static generateNote(note) {
-    return `<div class="note" data-note-id=${note._id}>
+    return `<div class="note ${note.days < 0 ? "overdue" : ""}" data-note-id=${
+      note._id
+    }>
      
         <p>
-          <label>DueDate</label><br>
-          📅&#xFE0E; <span class="bold">${moment(note.dueDate).format(
-            "DD.MM.YYYY"
-          )}</span></p>
+          <strong>${note.daysText()}</strong><br>
+          📅&#xFE0E; <span>${moment(note.dueDate).format("DD.MM.YYYY")}</span>
+        </p>
 
-          <div>
-            <h3>${note.title}</h3>
-          </div>
+        <div>
+          <h3>${note.title}</h3>
+        </div>
 
         <div class="note-buttons">
-          <button class="btn" id="edit-button" data-note-id=${
-            note._id
-          }>Edit</button>
+          <button class="btn" id="edit-button">Edit</button>
         </div>
 
         <div>
           <p>
-            <label>Importance</label>
           <div id="rating" class="rating">
             ${this.generateImportanceMarkup(note)}
           </div>
           </p>
-          <p>
-            <label>Completed</label>
-            <input type="checkbox" data-note-id=${note._id} ${
-      note.completed && "checked='true'"
-    }"  />
-          </p>
-          </div>
+        </div>
 
         <p>${note.description}</p>
 
         <div class="note-buttons">
-          <button class="btn" id="delete-button" data-note-id=${
-            note._id
-          }>Delete</button>
+          <p>
+            <button class="btn" id="complete-button">${
+              note.completed ? "Activate" : "Complete"
+            }</button>
+          </p>
+          <button class="btn" id="delete-button">Delete</button>
         </div>
 
       </div>`;
   }
 
   static generateNotes(notes) {
-    return notes.map((note) => this.generateNote(note)).join("");
+    return notes.length
+      ? notes.map((note) => this.generateNote(note)).join("")
+      : "<div>No items to display.</div>";
   }
 
   static generateImportanceMarkup(note) {

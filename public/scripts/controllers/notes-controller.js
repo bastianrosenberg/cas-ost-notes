@@ -1,37 +1,101 @@
 import { noteService } from "../../services/note-service.js";
+import Note from "../../services/note.js";
+import { CONSTANTS } from "../utils/constants.js";
 import MarkupGenerator from "../utils/markup-generator.js";
 
 const notesContainer = document.querySelector("#notes-container");
+const noteDialog = document.querySelector("#note-dialog");
 
-// const form = document.querySelector("form");
+let searchFilter = "";
+let showCompleted = false;
+const sortNote = { field: "dueDate", sort: 1 };
+
+const createButton = document.querySelector("#button-create");
+const completedInput = document.querySelector("#filter-completed");
 const searchInput = document.querySelector("#search");
-const createButton = document.getElementById("button-create");
 
-async function renderNotes(searchString) {
-  const notes = await noteService.getNotes(searchString);
+const getNoteIdFromContainer = (element) =>
+  element.closest(".note").dataset.noteId;
+
+async function renderNotes() {
+  const notes = await noteService.getNotes(
+    searchFilter,
+    sortNote,
+    showCompleted
+  );
   notesContainer.innerHTML = MarkupGenerator.generateNotes(notes);
 }
 
-async function handleSearchInputEvent(searchString) {
-  await renderNotes(searchString);
-}
-
 async function deleteNote(clickedElem) {
+  const noteId = getNoteIdFromContainer(clickedElem);
+
   await noteService
-    .deleteNote(clickedElem.dataset.noteId)
+    .deleteNote(noteId)
     .then(() => {
-      const noteElement = clickedElem.closest(".note");
-      noteElement.remove();
-      socket.emit("message", clickedElem.dataset.noteId);
+      clickedElem.closest(".note").remove();
+      socket.emit("message", noteId);
     })
     .catch((err) => console.log("client error - TODO handle errors", err));
 }
 
 async function toggleFinishState(element) {
-  const note = await noteService.getNote(element.dataset.noteId);
+  const note = await noteService.getNote(getNoteIdFromContainer(element));
 
-  await noteService.updateNote({ ...note, completed: element.checked });
-  socket.emit("message", element.dataset.noteId);
+  await noteService.updateNote({
+    ...note,
+    completed: element.textContent === CONSTANTS.COMPLETE,
+  });
+  socket.emit("message", note._id);
+}
+
+// form inputs
+const noteIdInput = noteDialog.querySelector("#note-id");
+const title = noteDialog.querySelector("h1");
+const formTitle = noteDialog.querySelector("#title");
+const formDescription = noteDialog.querySelector("#description");
+const formDueDate = noteDialog.querySelector("#duedate");
+const submitButton = noteDialog.querySelector("#submit-button");
+const formImportance = noteDialog.querySelector("#importance");
+const formCompleted = noteDialog.querySelector("#completed");
+
+async function handleEdit(noteId) {
+  if (noteId) {
+    const note = await noteService.getNote(noteId);
+    noteIdInput.value = note._id;
+    formTitle.value = note.title;
+    formDescription.value = note.description;
+    formDueDate.value = moment(note.dueDate).format(CONSTANTS.DATE_FORMAT);
+    submitButton.textContent = CONSTANTS.UPDATE;
+    title.textContent = CONSTANTS.UPDATE_NOTE;
+    formImportance.value = note.importance;
+  } else {
+    document.getElementById("star3").checked = true;
+    formDueDate.value = moment().format(CONSTANTS.DATE_FORMAT);
+    formCompleted.checked = false;
+  }
+}
+
+async function saveNote() {
+  const newNote = new Note(
+    formTitle.value,
+    formDescription.value,
+    moment(formDueDate.value).format(),
+    formImportance.value,
+    false
+  );
+  await noteService.createNote(newNote);
+}
+
+async function updateNote(id) {
+  const note = new Note(
+    formTitle.value,
+    formDescription.value,
+    moment(formDueDate.value).format(),
+    formImportance.value,
+    false,
+    id
+  );
+  await noteService.updateNote(note);
 }
 
 async function handleManipulateNoteEvent(event) {
@@ -39,8 +103,8 @@ async function handleManipulateNoteEvent(event) {
 
   switch (clickedElement.id) {
     case "delete-button":
-      if (clickedElement.textContent === "Delete") {
-        clickedElement.textContent = "Confirm";
+      if (clickedElement.textContent === CONSTANTS.DELETE) {
+        clickedElement.textContent = CONSTANTS.CONFIRM;
         clickedElement.style.background = getComputedStyle(
           document.body
         ).getPropertyValue("--warn-color");
@@ -49,39 +113,90 @@ async function handleManipulateNoteEvent(event) {
       }
       break;
     case "edit-button":
-      window.location.href = `/edit?id=${clickedElement.dataset.noteId}`;
+      handleEdit(getNoteIdFromContainer(clickedElement));
+      noteDialog.showModal();
+      break;
+    case "complete-button":
+      await toggleFinishState(clickedElement);
       break;
     default:
       break;
   }
-
-  if (clickedElement.type === "checkbox") {
-    await toggleFinishState(clickedElement);
-  }
 }
 
-function initEventHandlers() {
+async function handleFormSubmitEvent() {
+  if (noteIdInput.value) {
+    await updateNote(noteIdInput.value);
+  } else {
+    await saveNote();
+  }
+  await renderNotes();
+  socket.emit("message", noteIdInput.value);
+  noteDialog.close();
+}
+
+async function initEventHandlers() {
   notesContainer?.addEventListener("click", async (event) => {
     await handleManipulateNoteEvent(event);
   });
 
+  noteDialog.addEventListener("close", async () => {
+    if (noteDialog.returnValue === "cancel") {
+      return;
+    }
+    await handleFormSubmitEvent();
+  });
+
   createButton.addEventListener("click", () => {
-    window.location.href = "create";
+    title.textContent = CONSTANTS.CREATE_NOTE;
+    submitButton.textContent = CONSTANTS.CREATE;
+    noteIdInput.value = null;
+    formTitle.value = null;
+    formDescription.value = null;
+    formDueDate.value = moment().format(CONSTANTS.DATE_FORMAT);
+    formImportance.value = CONSTANTS.DEFAULT_IMPORTANCE;
+
+    noteDialog.showModal();
+  });
+
+  const sortButtons = document.querySelectorAll(".btn.sort");
+  sortButtons.forEach((btn) => {
+    btn.addEventListener("click", async (event) => {
+      const clickedButton = event.target;
+      sortNote.field = event.target.dataset.field;
+      sortNote.sort *= -1;
+
+      sortButtons.forEach((element) => {
+        const resetButton = element;
+        resetButton.textContent = resetButton.name;
+      });
+
+      clickedButton.textContent += sortNote.sort === -1 ? " ⬇️" : " ⬆️";
+
+      await renderNotes();
+    });
   });
 
   searchInput.addEventListener("keyup", async (event) => {
-    if (event.target.value.length === 0 || event.target.value.length > 2) {
-      await handleSearchInputEvent(event.target.value);
+    const stringLength = event.target.value.length;
+    if (stringLength === 0 || stringLength > 2) {
+      searchFilter = event.target.value;
+      await renderNotes();
     }
+  });
+
+  completedInput.addEventListener("click", async (event) => {
+    showCompleted = event.target.checked;
+    await renderNotes();
   });
 }
 
 async function init() {
-  // for sake of simplicity we reload all notes but could also manipulate DOM by payload (id)
+  // for sake of simplicity we reload all data
   socket.on("message", () => {
     renderNotes();
   });
-  initEventHandlers();
+  await initEventHandlers();
   await renderNotes();
 }
 

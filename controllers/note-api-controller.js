@@ -7,12 +7,22 @@ class NoteApiController {
   }
 
   getAllNotes = async (req, res) => {
-    const searchOptions = {};
+    const searchOptions = { completed: false };
+    const sortOptions = {};
 
     if (req.query.search !== null) {
       searchOptions.title = new RegExp(req.query.search, "i");
     }
-    res.json((await this.Note.find(searchOptions)) || []);
+
+    if (req.query.field !== null) {
+      sortOptions[req.query.field] = Number(req.query.sort);
+    }
+
+    if (req.query.completed === "true") {
+      delete searchOptions.completed;
+    }
+
+    res.json((await this.Note.find(searchOptions).sort(sortOptions)) || []);
   };
 
   createNote = async (req, res) => {
@@ -25,8 +35,10 @@ class NoteApiController {
     });
 
     try {
-      await note.save();
-      res.redirect("notes");
+      const createdNote = await note.save();
+      res.location(`/api/notes/${createdNote._id}`);
+      res.status(201);
+      res.json(createdNote);
     } catch {
       // TODO - show error
       // res.render("notes/new", {
@@ -48,11 +60,16 @@ class NoteApiController {
       new: true,
     });
 
-    try {
-      res.redirect(303, "/api/notes");
-    } catch (err) {
-      console.log("TODO - update err", err);
-    }
+    res.location(`/api/notes/${updateNote._id}`);
+    res.status(201);
+    res.json(updateNote);
+
+    // res.status(202).send(`Note with id ${req.body._id} updated.`);
+    // try {
+    //   res.redirect(303, "/api/notes");
+    // } catch (err) {
+    //   console.log("TODO - update err", err);
+    // }
   };
 
   // TODO - not working with then / catch

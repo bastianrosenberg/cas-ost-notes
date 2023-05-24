@@ -1,39 +1,38 @@
-// Theme switcher
-const lightThemeValue = "light-theme";
-const lightThemeText = "Light Theme";
-const darkThemeValue = "dark-theme";
-const darkThemeText = "Dark Theme";
-const themeLocalStorageId = "theme";
+import { THEME } from "../utils/constants.js";
 
+// Theme switcher
 const themeButton = document.querySelector(".header-buttons__theme");
 
 const switchThemeValue = (theme) =>
-  theme === lightThemeValue ? darkThemeValue : lightThemeValue;
+  theme === THEME.LIGHT_VALUE ? THEME.DARK_VALUE : THEME.LIGHT_VALUE;
 
 const switchThemeText = (theme) =>
-  theme === lightThemeValue ? darkThemeText : lightThemeText;
+  theme === THEME.LIGHT_VALUE ? THEME.DARK_TEXT : THEME.LIGHT_TEXT;
 
 function handleThemeChangeEvent(event) {
   const currentValue = event.target.value;
-  const bodyClassList = document.body.classList || lightThemeValue;
-  bodyClassList.toggle(darkThemeValue);
+  const bodyClassList = document.body.classList || THEME.LIGHT_VALUE;
+  bodyClassList.toggle(THEME.DARK_VALUE);
 
   themeButton.value = switchThemeValue(currentValue);
   themeButton.textContent = switchThemeText(currentValue);
 
-  localStorage.setItem(themeLocalStorageId, currentValue);
+  localStorage.setItem(THEME.STORAGE_KEY, currentValue);
+  socket.emit("theme", currentValue);
 }
 
 function initializeTheme() {
-  const theme = localStorage.getItem(themeLocalStorageId);
+  const theme = localStorage.getItem(THEME.STORAGE_KEY);
 
-  if (theme === darkThemeValue) {
-    document.body.classList.add(darkThemeValue);
+  if (theme === THEME.DARK_VALUE) {
+    document.body.classList.add(THEME.DARK_VALUE);
+  } else {
+    document.body.classList.remove(THEME.DARK_VALUE);
   }
 
   if (themeButton) {
-    themeButton.value = theme ? switchThemeValue(theme) : darkThemeValue;
-    themeButton.textContent = theme ? switchThemeText(theme) : darkThemeText;
+    themeButton.value = theme ? switchThemeValue(theme) : THEME.DARK_VALUE;
+    themeButton.textContent = theme ? switchThemeText(theme) : THEME.DARK_TEXT;
   }
 }
 
@@ -47,6 +46,9 @@ function initEventHandlers() {
 function init() {
   initializeTheme();
   initEventHandlers();
+  socket.on("theme", () => {
+    initializeTheme();
+  });
 }
 
 init();

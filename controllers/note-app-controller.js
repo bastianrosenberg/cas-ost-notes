@@ -9,10 +9,6 @@ export class NoteAppController {
   getIndexDocument = async (req, res) => {
     res.sendFile(`${this.noteRootPath}index.html`);
   };
-
-  getNoteDetailDocument = (req, res) => {
-    res.sendFile(`${this.noteRootPath}note.html`);
-  };
 }
 
 export const noteAppController = new NoteAppController();
