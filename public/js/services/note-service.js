@@ -1,4 +1,4 @@
-import HttpHelper from "../scripts/utils/http-helper.js";
+import HttpHelper from "../utils/http-helper.js";
 import Note from "./note.js";
 
 export class NoteService {

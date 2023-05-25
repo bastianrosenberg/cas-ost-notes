@@ -1,5 +1,5 @@
-import { noteService } from "../../services/note-service.js";
-import Note from "../../services/note.js";
+import { noteService } from "../services/note-service.js";
+import Note from "../services/note.js";
 import { CONSTANTS } from "../utils/constants.js";
 import MarkupGenerator from "../utils/markup-generator.js";
 
@@ -67,7 +67,7 @@ async function handleEdit(noteId) {
     formDueDate.value = moment(note.dueDate).format(CONSTANTS.DATE_FORMAT);
     submitButton.textContent = CONSTANTS.UPDATE;
     title.textContent = CONSTANTS.UPDATE_NOTE;
-    formImportance.value = note.importance;
+    formImportance.valueAsNumber = note.importance;
   } else {
     document.getElementById("star3").checked = true;
     formDueDate.value = moment().format(CONSTANTS.DATE_FORMAT);
@@ -80,7 +80,7 @@ async function saveNote() {
     formTitle.value,
     formDescription.value,
     moment(formDueDate.value).format(),
-    formImportance.value,
+    formImportance.valueAsNumber,
     false
   );
   await noteService.createNote(newNote);
@@ -91,7 +91,7 @@ async function updateNote(id) {
     formTitle.value,
     formDescription.value,
     moment(formDueDate.value).format(),
-    formImportance.value,
+    formImportance.valueAsNumber,
     false,
     id
   );
@@ -154,7 +154,7 @@ async function initEventHandlers() {
     formTitle.value = null;
     formDescription.value = null;
     formDueDate.value = moment().format(CONSTANTS.DATE_FORMAT);
-    formImportance.value = CONSTANTS.DEFAULT_IMPORTANCE;
+    formImportance.valueAsNumber = CONSTANTS.DEFAULT_IMPORTANCE;
 
     noteDialog.showModal();
   });
