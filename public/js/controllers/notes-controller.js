@@ -29,13 +29,10 @@ async function renderNotes() {
 async function deleteNote(clickedElem) {
   const noteId = getNoteIdFromContainer(clickedElem);
 
-  await noteService
-    .deleteNote(noteId)
-    .then(() => {
-      clickedElem.closest(".note").remove();
-      socket.emit("message", noteId);
-    })
-    .catch((err) => console.log("client error - TODO handle errors", err));
+  await noteService.deleteNote(noteId).then(() => {
+    clickedElem.closest(".note").remove();
+    socket.emit("message", noteId);
+  });
 }
 
 async function toggleFinishState(element) {

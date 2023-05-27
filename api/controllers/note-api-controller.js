@@ -40,11 +40,7 @@ class NoteApiController {
       res.status(201);
       res.json(createdNote);
     } catch {
-      // TODO - show error
-      // res.render("notes/new", {
-      //   note: note,
-      //   errorMessage: "Error creating Note",
-      // });
+      res.status(500).send("Could not create note.");
     }
   };
 
@@ -63,16 +59,8 @@ class NoteApiController {
     res.location(`/api/notes/${updateNote._id}`);
     res.status(201);
     res.json(updateNote);
-
-    // res.status(202).send(`Note with id ${req.body._id} updated.`);
-    // try {
-    //   res.redirect(303, "/api/notes");
-    // } catch (err) {
-    //   console.log("TODO - update err", err);
-    // }
   };
 
-  // TODO - not working with then / catch
   deleteNote = async (req, res) => {
     const deletedNote = await this.Note.deleteOne({ _id: req.params.id });
 
