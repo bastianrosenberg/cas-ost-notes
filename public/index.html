@@ -38,7 +38,12 @@
     </header>
     <main>
       <div class="filter-container">
-        <input placeholder="Search" id="search" type="text" name="search" />
+        <input
+          placeholder="Search by title"
+          id="search"
+          type="text"
+          name="search"
+        />
         <button class="btn sort space" name="DueDate" data-field="dueDate">
           DueDate
         </button>
@@ -97,14 +102,7 @@
 
               <label></label>
               <div class="slidecontainer">
-                <input
-                  type="range"
-                  min="1"
-                  max="5"
-                  value="3"
-                  id="importance"
-                  required
-                />
+                <input type="range" min="1" max="5" value="3" id="importance" />
               </div>
             </div>
             <div class="form-center">
