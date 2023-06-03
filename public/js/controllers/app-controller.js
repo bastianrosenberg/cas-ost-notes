@@ -3,19 +3,24 @@ import { THEME } from "../utils/constants.js";
 // Theme switcher
 const themeButton = document.querySelector(".header-buttons__theme");
 
-const switchThemeValue = (theme) =>
-  theme === THEME.LIGHT_VALUE ? THEME.DARK_VALUE : THEME.LIGHT_VALUE;
+const switchTheme = (theme, type = "value") => {
+  if (type === "value") {
+    return theme === THEME.LIGHT_VALUE ? THEME.DARK_VALUE : THEME.LIGHT_VALUE;
+  }
+  if (type === "text") {
+    return theme === THEME.LIGHT_VALUE ? THEME.DARK_TEXT : THEME.LIGHT_TEXT;
+  }
 
-const switchThemeText = (theme) =>
-  theme === THEME.LIGHT_VALUE ? THEME.DARK_TEXT : THEME.LIGHT_TEXT;
+  return "not supported.";
+};
 
 function handleThemeChangeEvent(event) {
   const currentValue = event.target.value;
   const bodyClassList = document.body.classList || THEME.LIGHT_VALUE;
   bodyClassList.toggle(THEME.DARK_VALUE);
 
-  themeButton.value = switchThemeValue(currentValue);
-  themeButton.textContent = switchThemeText(currentValue);
+  themeButton.value = switchTheme(currentValue);
+  themeButton.textContent = switchTheme(currentValue, "text");
 
   localStorage.setItem(THEME.STORAGE_KEY, currentValue);
   socket.emit("theme", currentValue);
@@ -31,8 +36,10 @@ function initializeTheme() {
   }
 
   if (themeButton) {
-    themeButton.value = theme ? switchThemeValue(theme) : THEME.DARK_VALUE;
-    themeButton.textContent = theme ? switchThemeText(theme) : THEME.DARK_TEXT;
+    themeButton.value = theme ? switchTheme(theme) : THEME.DARK_VALUE;
+    themeButton.textContent = theme
+      ? switchTheme(theme, "text")
+      : THEME.DARK_TEXT;
   }
 }
 
