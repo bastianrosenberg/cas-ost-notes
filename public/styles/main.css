@@ -1,8 +1,8 @@
 :root {
   --background-color: #c9bdbd;
-  --background-overdue-color: #c05524;
+  --background-overdue-color: #bd7029;
   --emphasize-color: #4ccece;
-  --emphasize-overdue-color: #af3f8d;
+  --emphasize-overdue-color: #bd7029;
   --shadow-color: #888889;
   --button-color: #5792d9;
   --active-color: #4ccece;
@@ -13,7 +13,7 @@
 
 .dark-theme {
   --background-color: #082e61;
-  --background-overdue-color: #c09f43;
+  --background-overdue-color: #bd7029;
   --emphasize-color: #678cac;
   --emphasize-overdue-color: #bd7029;
   --shadow-color: #928f8f;
@@ -179,13 +179,6 @@ input[type="range"] {
   row-gap: 10px;
 }
 
-@media screen and (max-width: 992px) {
-  .note-form {
-    display: block;
-    font-size: smaller;
-  }
-}
-
 .note-form label {
   display: flex;
   align-items: center;
@@ -296,4 +289,11 @@ input:checked + .slider::before {
 
 .slider.round::before {
   border-radius: 50%;
+}
+
+@media screen and (max-width: 992px) {
+  .note-form {
+    display: block;
+    font-size: smaller;
+  }
 }

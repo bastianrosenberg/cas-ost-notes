@@ -2,8 +2,7 @@ export default class MarkupGenerator {
   static generateNote(note) {
     return `<div class="note ${note.days < 0 ? "overdue" : ""}" data-note-id=${
       note._id
-    }>
-     
+    }>    
         <p>
           <strong>${note.daysText()}</strong><br>
           📅&#xFE0E; <span>${moment(note.dueDate).format("DD.MM.YYYY")}</span>
@@ -54,7 +53,7 @@ export default class MarkupGenerator {
           } type="radio" id="star${m}" name="importance${
             note._id
           }" value="${m}"/>
-      <label for="star${m}" title="${m} star(s)"></label>`
+      <label for="star${m}" title="${m} star${m > 1 ? "s" : ""}"></label>`
       )
       .join("");
   }
