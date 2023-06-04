@@ -1,4 +1,4 @@
-export const CONSTANTS = {
+const CONSTANTS = {
   UPDATE: "Update",
   COMPLETE: "Complete",
   UPDATE_NOTE: "Update Note",
@@ -17,3 +17,5 @@ export const THEME = {
   DARK_TEXT: "Dark Theme",
   STORAGE_KEY: "theme",
 };
+
+export default CONSTANTS;

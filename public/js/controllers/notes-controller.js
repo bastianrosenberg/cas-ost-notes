@@ -1,6 +1,6 @@
 import { noteService } from "../services/note-service.js";
 import Note from "../services/note.js";
-import { CONSTANTS } from "../utils/constants.js";
+import CONSTANTS from "../utils/constants.js";
 import MarkupGenerator from "../utils/markup-generator.js";
 
 const notesContainer = document.querySelector("#notes-container");
@@ -168,7 +168,7 @@ async function initEventHandlers() {
         resetButton.textContent = resetButton.name;
       });
 
-      clickedButton.textContent += sortNote.sort === -1 ? " ⬇️" : " ⬆️";
+      clickedButton.textContent += sortNote.sort === -1 ? " ▼" : " ▲";
 
       await renderNotes();
     });

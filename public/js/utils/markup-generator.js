@@ -10,6 +10,7 @@ export default class MarkupGenerator {
 
         <div>
           <h3>${note.title}</h3>
+          <hr>
         </div>
 
         <div class="note-buttons">
