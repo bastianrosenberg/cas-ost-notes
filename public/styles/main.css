@@ -296,4 +296,8 @@ input:checked + .slider::before {
     display: block;
     font-size: smaller;
   }
+
+  dialog {
+    width: 50%;
+  }
 }
