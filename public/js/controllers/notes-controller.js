@@ -1,4 +1,5 @@
-import { noteService } from "../services/note-service.js";
+import noteService from "../services/note-service.js";
+
 import Note from "../services/note.js";
 import CONSTANTS from "../utils/constants.js";
 import MarkupGenerator from "../utils/markup-generator.js";
@@ -18,27 +19,41 @@ const getNoteIdFromContainer = (element) =>
   element.closest(".note").dataset.noteId;
 
 async function renderNotes() {
-  const notes = await noteService.getNotes(
+  const { data } = await noteService.fetchNotes(
     searchFilter,
     sortNote,
     showCompleted
   );
-  notesContainer.innerHTML = MarkupGenerator.generateNotes(notes);
+
+  notesContainer.innerHTML = MarkupGenerator.generateNotes(
+    data.notes.map(
+      (m) =>
+        new Note(
+          m.title,
+          m.description,
+          m.dueDate,
+          m.importance,
+          m.completed,
+          m._id
+        )
+    )
+  );
 }
 
-async function deleteNote(clickedElem) {
+const deleteNote = async (clickedElem) => {
   const noteId = getNoteIdFromContainer(clickedElem);
 
-  await noteService.deleteNote(noteId).then(() => {
+  await noteService.removeNote(noteId).then(() => {
     clickedElem.closest(".note").remove();
     socket.emit("message", noteId);
   });
-}
+};
 
 async function toggleFinishState(element) {
-  const note = await noteService.getNote(getNoteIdFromContainer(element));
+  const response = await noteService.findNote(getNoteIdFromContainer(element));
+  const { note } = response.data;
 
-  await noteService.updateNote({
+  await noteService.modifyNote({
     ...note,
     completed: element.textContent === CONSTANTS.COMPLETE,
   });
@@ -55,9 +70,11 @@ const submitButton = noteDialog.querySelector("#submit-button");
 const formImportance = noteDialog.querySelector("#importance");
 const formCompleted = noteDialog.querySelector("#completed");
 
-async function handleEdit(noteId) {
+const handleEdit = async (noteId) => {
   if (noteId) {
-    const note = await noteService.getNote(noteId);
+    const {
+      data: { note },
+    } = await noteService.findNote(noteId);
     noteIdInput.value = note._id;
     formTitle.value = note.title;
     formDescription.value = note.description;
@@ -66,11 +83,11 @@ async function handleEdit(noteId) {
     title.textContent = CONSTANTS.UPDATE_NOTE;
     formImportance.valueAsNumber = note.importance;
   } else {
-    document.getElementById("star3").checked = true;
+    document.getElementsByName("star3").checked = true;
     formDueDate.value = moment().format(CONSTANTS.DATE_FORMAT);
     formCompleted.checked = false;
   }
-}
+};
 
 async function saveNote() {
   const newNote = new Note(
@@ -80,10 +97,11 @@ async function saveNote() {
     formImportance.valueAsNumber,
     false
   );
-  await noteService.createNote(newNote);
+
+  await noteService.addNote(newNote);
 }
 
-async function updateNote(id) {
+const updateNote = async (id) => {
   const note = new Note(
     formTitle.value,
     formDescription.value,
@@ -92,8 +110,9 @@ async function updateNote(id) {
     false,
     id
   );
-  await noteService.updateNote(note);
-}
+
+  await noteService.modifyNote(note);
+};
 
 async function handleManipulateNoteEvent(event) {
   const clickedElement = event.target;
